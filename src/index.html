@@ -1,14 +1,170 @@
 <!doctype html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="./css/output.css" rel="stylesheet">
-</head>
-<body>
-  <h1 class="text-3xl font-bold underline">
-    Hello world!
-  </h1>
-  <script src="./script.js"></script>
-</body>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Todo App</title>
+		<!-- Tailwind CSS CDN -->
+		<link href="./css/output.css" rel="stylesheet" />
+		<!-- FontAwesome Icons -->
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+		/>
+	</head>
+	<body
+		class="bg-slate-100 text-slate-800 min-h-screen font-sans flex flex-col justify-between"
+	>
+		<!-- Main Container -->
+		<main class="container mx-auto max-w-2xl px-4 py-8 sm:py-12">
+			<!-- Header -->
+			<header class="text-center mb-8">
+				<h1
+					class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight flex items-center justify-center gap-3"
+				>
+					<span>📝</span> MindDeck
+				</h1>
+				<p class="text-slate-500 text-sm sm:text-base mt-2">
+					Organize your daily tasks effortlessly.
+				</p>
+			</header>
+
+			<!-- App Main Card -->
+			<div
+				class="bg-white rounded-2xl shadow-xl border border-slate-200/60 p-4 sm:p-6 space-y-6"
+			>
+				<!-- 1. ADD TASK INPUT -->
+				<form
+					id="add-todo-form"
+					class="flex flex-col sm:flex-row gap-2 sm:gap-3"
+				>
+					<input
+						type="text"
+						id="todo-input"
+						placeholder="What needs to be done?"
+						class="flex-1 px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm sm:text-base transition-all"
+						required
+					/>
+					<button
+						type="submit"
+						class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer"
+					>
+						<i class="fa-solid fa-plus"></i>
+						<span>Add Task</span>
+					</button>
+				</form>
+
+				<!-- 2. SEARCH & CLEAR ALL CONTROLS -->
+				<div
+					class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 border-t border-slate-100"
+				>
+					<!-- Search Bar -->
+					<div class="relative w-full sm:w-2/3">
+						<i
+							class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"
+						></i>
+						<input
+							type="text"
+							id="search-input"
+							placeholder="Search tasks..."
+							class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all bg-slate-50 focus:bg-white"
+						/>
+					</div>
+
+					<!-- Remove All Tasks Button -->
+					<button
+						id="clear-all-btn"
+						type="button"
+						class="w-full sm:w-auto px-4 py-2.5 rounded-xl text-red-600 hover:bg-red-50 border border-red-200 font-medium text-xs sm:text-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
+					>
+						<i class="fa-solid fa-trash-can"></i>
+						<span>Clear All</span>
+					</button>
+				</div>
+
+				<!-- 3. TASK LIST AREA -->
+				<div class="mt-4">
+					<ul id="todo-list" class="space-y-3">
+						<!-- Sample Task Item (Normal Display State) -->
+						<li
+							class="flex items-center justify-between p-3.5 bg-slate-50 hover:bg-slate-100/80 rounded-xl border border-slate-200/80 transition-all group"
+						>
+							<span
+								class="text-sm sm:text-base text-slate-700 font-medium break-all"
+							>
+								Complete initial project setup
+							</span>
+							<div
+								class="flex items-center gap-1 sm:gap-2 ml-3 shrink-0"
+							>
+								<!-- Edit Button -->
+								<button
+									title="Edit"
+									class="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all cursor-pointer"
+								>
+									<i
+										class="fa-solid fa-pen-to-square text-sm sm:text-base"
+									></i>
+								</button>
+								<!-- Delete Button -->
+								<button
+									title="Delete"
+									class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all cursor-pointer"
+								>
+									<i
+										class="fa-solid fa-trash text-sm sm:text-base"
+									></i>
+								</button>
+							</div>
+						</li>
+
+						<!-- Sample Task Item (Inline Edit State Example) -->
+						<li
+							class="flex items-center justify-between p-3 bg-indigo-50/50 rounded-xl border border-indigo-200 gap-2"
+						>
+							<input
+								type="text"
+								value="Editing this specific task..."
+								class="flex-1 px-3 py-1.5 rounded-lg border border-indigo-300 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+							/>
+							<div class="flex items-center gap-1 shrink-0">
+								<button
+									title="Save"
+									class="px-3 py-1.5 bg-indigo-600 text-white rounded-lg text-xs font-semibold hover:bg-indigo-700 transition-all cursor-pointer"
+								>
+									Save
+								</button>
+								<button
+									title="Cancel"
+									class="px-3 py-1.5 text-slate-500 hover:text-slate-700 text-xs font-medium transition-all cursor-pointer"
+								>
+									Cancel
+								</button>
+							</div>
+						</li>
+					</ul>
+
+					<!-- Empty State (Shown via JS when array is empty) -->
+					<div
+						id="empty-state"
+						class="hidden text-center py-10 text-slate-400"
+					>
+						<i
+							class="fa-regular fa-clipboard text-4xl mb-3 block"
+						></i>
+						<p class="text-sm font-medium">
+							No tasks found. Add one above!
+						</p>
+					</div>
+				</div>
+			</div>
+		</main>
+
+		<!-- Footer -->
+		<footer class="text-center py-4 text-xs text-slate-400">
+			<p>Built with HTML, Tailwind CSS & JavaScript</p>
+		</footer>
+
+		<script src="./script.js"></script>
+	</body>
 </html>
