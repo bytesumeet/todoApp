@@ -5,5 +5,23 @@ document.addEventListener("DOMContentLoaded", () => {
 	const clearAllButtonElement = document.querySelector("#clear-all-btn");
 	const taskListElement = document.querySelector("#todo-list");
 	const emptyStateElement = document.querySelector("#empty-state");
-	
-})
+	let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+	const saveTaskToLocalStorage = (task) => {
+		tasks.push(task);
+		localStorage.setItem("tasks", JSON.stringify(tasks));
+	};
+	const createTaskElement = (data) => {};
+	addTaskFormElement.addEventListener("submit", (e) => {
+		e.preventDefault();
+		const todoText = todoInputElement.value.trim();
+		if (!todoText) return;
+		const taskObject = {
+			id: Date.now(),
+			text: todoText,
+			completed: false,
+		};
+		saveTaskToLocalStorage(taskObject);
+		createTaskElement(taskObject);
+		todoInputElement.value = "";
+	});
+});
