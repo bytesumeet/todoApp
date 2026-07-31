@@ -7,10 +7,39 @@ document.addEventListener("DOMContentLoaded", () => {
 	const emptyStateElement = document.querySelector("#empty-state");
 	let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 	const saveTaskToLocalStorage = (task) => {
-		tasks.push(task);
+		if (task) {
+			tasks.push(task);
+		}
 		localStorage.setItem("tasks", JSON.stringify(tasks));
 	};
+	const clearAllTasks = () => {
+		tasks = [];
+		saveTaskToLocalStorage();
+		tasks.length === 0
+			? emptyStateElement.classList.remove("hidden")
+			: emptyStateElement.classList.add("hidden");
+	};
+	const searchTask = (query) => {
+		const normalizedQuery = query.trim().toLowerCase();
+		const filterTasks = tasks.filter((t) =>
+			t.text?.toLowerCase().includes(normalizedQuery),
+		);
+		console.log(filterTasks);
+		taskListElement.replaceChildren();
+		if (filterTasks.length === 0) {
+			emptyStateElement.classList.remove("hidden");
+		} else {
+			emptyStateElement.classList.add("hidden");
+		}
+		filterTasks.forEach((t) => createTaskElement(t));
+	};
 	const createTaskElement = (data) => {};
+	if(tasks.length === 0) {
+		emptyStateElement.classList.remove("hidden");
+	} else {
+		emptyStateElement.classList.add("hidden");
+		tasks.forEach((t) => createTaskElement(t));
+	}
 	addTaskFormElement.addEventListener("submit", (e) => {
 		e.preventDefault();
 		const todoText = todoInputElement.value.trim();
@@ -20,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			text: todoText,
 			completed: false,
 		};
+		console.log(taskObject);
 		saveTaskToLocalStorage(taskObject);
 		createTaskElement(taskObject);
 		todoInputElement.value = "";
